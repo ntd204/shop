@@ -6,7 +6,7 @@ const BannerTopHome = () => {
   return (
     <div>
       <div className="animate-zoomIn relative">
-        <img className="w-screen h-[500px]" src={BackGround} alt="" />
+        <img className="w-screen h-[700px]" src={BackGround} alt="" />
         <div className="absolute w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
           <h2 className="text-xl lg:text-4xl font-bold text-white lg:leading-10 animate-slideInLeft">
             Harmony in Design: <br />

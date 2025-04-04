@@ -9,7 +9,7 @@ const Layout = () => {
       <header>
         <Header />
       </header>
-      <main className="bg-gray-200">
+      <main>
         <Outlet />
       </main>
       <Footer></Footer>
