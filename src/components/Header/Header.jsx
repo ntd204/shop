@@ -2,8 +2,11 @@ import React from "react";
 
 import { Link, NavLink } from "react-router-dom";
 import { Cart, Heart, Logo, User } from "../../utils/Images";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const cartItems = useSelector((state) => state.cartSlice.cartItems);
+  const wishLists = useSelector((state) => state.wishListSlice.wishLists);
   const listMenu = [
     { tittle: "Home", to: "/" },
     { tittle: "Product", to: "/product" },
@@ -11,7 +14,7 @@ const Header = () => {
     { tittle: "Profile", to: "/profile" },
   ];
   return (
-    <div className="flex justify-evenly h-[70px] bg-[#f2f2f2] shadow-2xl">
+    <div className="flex justify-evenly h-[70px] bg-[#f2f2f2] shadow-2xl ">
       <Link className="block max-w-[130px] " to={"/"}>
         <img className="max-w-full" src={Logo} alt="logo" />
       </Link>
@@ -41,13 +44,13 @@ const Header = () => {
         <Link to={"/cart"} className="relative">
           <img src={Cart} className="w-7" />
           <span className="flex items-center justify-center absolute -top-1 -right-1.5 bg-black rounded-full w-5 text-white text-sm">
-            5
+            {cartItems.length}
           </span>
         </Link>
         <Link to={"/wishList"} className="relative">
           <img src={Heart} className="w-6" />
           <span className="flex items-center justify-center absolute -top-1.5 -right-1.5 bg-black rounded-full w-5 text-white text-sm">
-            5
+            {wishLists.length}
           </span>
         </Link>
       </div>
