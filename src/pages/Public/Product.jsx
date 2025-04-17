@@ -1,22 +1,32 @@
-import React, { useEffect, useState } from "react";
-import apiProducts from "../../services/apiProducts";
+import React, { useState } from "react";
 import BannerTopProduct from "../Banner/BannerTopProduct";
 import useFetchGetDataAllCategory from "../../hooks/useFetchGetDataAllCategory";
 import BoxProduct from "./Boxs/BoxProduct";
+import useFetchDataProduct from "../../hooks/useFetchDataProduct";
 
 const Product = () => {
-  const [products, setProducts] = useState([]);
   const [category, setCategory] = useState("");
+  const { products } = useFetchDataProduct(category);
+  const [sortOption, setSortOption] = useState("");
   const { categories } = useFetchGetDataAllCategory();
-  useEffect(() => {
-    const fetchGetAllProducts = async () => {
-      const res = await apiProducts.getAllProducts();
-      if (res.status === 200) {
-        setProducts(res.data.products);
-      }
-    };
-    fetchGetAllProducts();
-  }, []);
+
+  const handleSortChange = (e) => {
+    const value = e.target.value;
+    setSortOption(value);
+    switch (value) {
+      case "price, asc":
+        return [...products].sort((a, b) => a.price - b.price);
+      case "price, desc":
+        return [...products].sort((a, b) => b.price - a.price);
+      case "title, asc":
+        return [...products].sort((a, b) => a.title.localeCompare(b.title));
+      case "title, desc":
+        return [...products].sort((a, b) => b.title.localeCompare(a.title));
+
+      default:
+        return products;
+    }
+  };
   return (
     <>
       <BannerTopProduct />
@@ -84,10 +94,14 @@ const Product = () => {
                 ) : (
                   <div className="flex justify-center gap-3">
                     <div>
-                      <select className="w-max px-4 py-2 pr-4 border bg-white border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                      <select
+                        className="w-max px-4 py-2 pr-4 border bg-white border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        value={sortOption}
+                        onChange={handleSortChange}
+                      >
                         <option value="">Mặc định</option>
-                        <option value="price,desc">Giảm dần theo giá</option>
                         <option value="price,asc">Tăng dần theo giá</option>
+                        <option value="price,desc">Giảm dần theo giá</option>
                         <option value="title,asc">A-Z</option>
                         <option value="title,desc">Z-A</option>
                       </select>
@@ -103,9 +117,10 @@ const Product = () => {
                   </div>
                 )}
                 <ul className="lg:grid grid-cols-4 gap-5  space-y-3 lg:space-y-0 pt-5">
-                  {products.map((item, idx) => (
-                    <BoxProduct key={idx} item={item} />
-                  ))}
+                  {products.length > 0 &&
+                    products.map((item, idx) => (
+                      <BoxProduct key={idx} item={item} />
+                    ))}
                 </ul>
               </div>
             </div>

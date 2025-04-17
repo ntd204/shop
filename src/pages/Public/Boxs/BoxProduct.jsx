@@ -83,18 +83,18 @@ const BoxProduct = ({ item, idx }) => {
       <Link to={"/detail-product/:id"}>
         <img src={item.thumbnail} className="w-full" />
       </Link>
-      <p className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center">
         <h3 className="text-15 mt-2">Title: {item.title}</h3>
         <span className="text-red-500 group-hover:hidden">
           Price: {item.price}$
         </span>
         <button
-          className="hover:underline hidden group-hover:block uppercase"
+          className="hover:underline hidden group-hover:block uppercase absolute bottom-1"
           onClick={handleAddToCart}
         >
           Add to cart
         </button>
-      </p>
+      </div>
     </li>
   ) : (
     <li className="mt-6 md:mt-0 text-center group relative">
