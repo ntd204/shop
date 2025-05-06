@@ -12,6 +12,7 @@ import { addToCart } from "../../redux/features/cartSlice";
 import SectionRelatesProduct from "./Sections/SectionRelatesProduct";
 import _ from "lodash";
 import useFetchDataProduct from "../../hooks/useFetchDataProduct";
+import useAuth from "../../hooks/useAuth";
 
 const DetailProduct = () => {
   const { id } = useParams();
@@ -20,21 +21,23 @@ const DetailProduct = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [quantityProduct, setQuantityProduct] = useState(1);
   const [category, setCategory] = useState("");
-  // const [productByCategory, setProductByCategory] = useState([]);
   const [activeImgIndex, setActiveImgIndex] = useState(0);
   const { products } = useFetchDataProduct(category);
   const dispatch = useDispatch();
+  const { requireAuth } = useAuth();
 
   const handleAddToCart = () => {
-    dispatch(
-      addToCart({
-        ...product,
-        quantityProduct,
-      })
-    );
-    toast.success("Thêm vào giỏ hàng thành công!", {
-      progress: undefined,
-      autoClose: 1000,
+    requireAuth(() => {
+      dispatch(
+        addToCart({
+          ...products,
+          quantity: 1,
+        })
+      ),
+        toast.success("Thêm vào giỏ hàng thành công!", {
+          progress: undefined,
+          autoClose: 1000,
+        });
     });
   };
   const handleAddToWishList = (e) => {
@@ -83,17 +86,6 @@ const DetailProduct = () => {
       fetchDataDetailProduct();
     }
   }, [id, divRef]);
-  // useEffect(() => {
-  //   const fetchDataProductsByCategory = async () => {
-  //     const res = await apiProducts.getDataProductsByCategory(category);
-  //     if (res.status === 200) {
-  //       setProductByCategory(res.data.products);
-  //     }
-  //   };
-  //   if (category) {
-  //     fetchDataProductsByCategory();
-  //   }
-  // }, [category]);
   const handleChangeActiveImage = (index) => {
     setActiveImgIndex(index);
   };
@@ -108,6 +100,7 @@ const DetailProduct = () => {
           <ul className="flex justify-center items-center gap-2">
             {product?.images?.map((item, index) => (
               <li
+                key={index}
                 className={`cursor-pointer border-2 rounded-xl hover:border-blue-500 hover:border-2 overflow-hidden ${
                   activeImgIndex == index && "border-blue-500 border-2 "
                 }`}
@@ -151,8 +144,12 @@ const DetailProduct = () => {
           <div className="flex justify-between">
             <div className="flex items-center w-max relative cursor-pointer">
               <button
-                className="text-lg block text-[0px] absolute left-4 cursor-pointer"
-                onClick={() => setQuantityProduct(() => quantityProduct - 1)}
+                className={`text-lg block text-[0px] absolute left-4 ${
+                  quantityProduct === 1
+                    ? "cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+                onClick={() => setQuantityProduct((prev) => prev - 1)}
                 disabled={quantityProduct === 1}
               >
                 <span className="text-2xl leading-[24px] cursor-pointer">
@@ -166,7 +163,7 @@ const DetailProduct = () => {
               />
               <button
                 className="text-lg block text-[0px] absolute right-4 cursor-pointer"
-                onClick={() => setQuantityProduct(() => quantityProduct + 1)}
+                onClick={() => setQuantityProduct((prev) => prev + 1)}
               >
                 <span className="text-2xl leading-[24px] cursor-pointer">
                   +
@@ -175,7 +172,7 @@ const DetailProduct = () => {
             </div>
             <div className="w-[500px]">
               <button
-                className=" justify-center mt-6 lg:mt-0 h-9 border border-black px-7 inline-flex items-center font-semibold text-black rounded-full text-[15px] hover:bg-black hover:text-white transition-all duration-300 w-full"
+                className=" justify-center mt-6 lg:mt-0 h-9 border border-black px-7 inline-flex items-center font-semibold text-white bg-black rounded-full text-[15px] hover:bg-white hover:text-black transition-all duration-300 w-full"
                 onClick={handleAddToCart}
               >
                 Add To Cart

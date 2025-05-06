@@ -5,7 +5,7 @@ const initialState = {
 };
 
 export const wishListSlice = createSlice({
-  name: "wishListSlice",
+  name: "wishList",
   initialState,
   reducers: {
     addToWishList: (state, action) => {
@@ -59,7 +59,11 @@ export const wishListSlice = createSlice({
         };
       }
     },
+    setWishListFromStorage: (state, action) => {
+      state.wishLists = action.payload;
+    },
   },
 });
-export const { addToWishList, reduceWishList } = wishListSlice.actions;
+export const { addToWishList, reduceWishList, setWishListFromStorage } =
+  wishListSlice.actions;
 export default wishListSlice.reducer;

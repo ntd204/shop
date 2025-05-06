@@ -10,13 +10,11 @@ const useFetchDataProduct = (category) => {
       if (res.status === 200) {
         setProducts(res.data.products);
       }
-      console.log("res", res);
     };
     if (category) {
       fetchGetAllProducts();
     }
   }, [category]);
-  console.log(products, "products");
   return { products };
 };
 

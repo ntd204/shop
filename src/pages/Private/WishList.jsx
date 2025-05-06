@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import BoxProduct from "../Public/Boxs/BoxProduct";
 
 const WishList = () => {
-  const wishList = useSelector((state) => state.wishListSlice.wishLists);
+  const wishList = useSelector((state) => state.wishList.wishLists);
   const [listWish, setListWish] = useState([]);
   useEffect(() => {
     setListWish(wishList);

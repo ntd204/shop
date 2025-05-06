@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const Cart = () => {
-  const cartItems = useSelector((state) => state.cartSlice.cartItems);
+  const cartItems = useSelector((state) => state.cart.cartItems);
   const { quantity } = cartItems;
   const [quantityProduct, setQuantityProduct] = useState(1);
   const [items, setItems] = useState([]);
