@@ -6,8 +6,8 @@ import {
 } from "../utils/constants/getApi";
 
 const apiProducts = {
-  getAllProducts: async () => {
-    return await axios.get(API_ALL_PRODUCTS);
+  getAllProducts: async (params) => {
+    return await axios.get(`${API_ALL_PRODUCTS}/search?`, { params });
   },
   getDataDetailProducts: async (id) => {
     return await axios.get(`${API_GET_DETAIL_PRODUCT}/${id}`);

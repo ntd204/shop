@@ -4,7 +4,7 @@ const initialState = {
   wishLists: [],
 };
 
-export const wishListSlice = createSlice({
+export const wishList = createSlice({
   name: "wishList",
   initialState,
   reducers: {
@@ -22,15 +22,11 @@ export const wishListSlice = createSlice({
           }
           return product;
         });
-        return {
-          ...state,
-          wishLists: updateWishList,
-        };
+        state.wishLists = updateWishList;
+      } else {
+        state.wishLists = [...wishLists, payload];
       }
-      return {
-        ...state,
-        wishLists: [...wishLists, payload],
-      };
+      localStorage.setItem("wishList", JSON.stringify(state.wishLists));
     },
     reduceWishList: (state, action) => {
       const { wishLists } = state;
@@ -45,25 +41,28 @@ export const wishListSlice = createSlice({
           }
           return product;
         });
-        return {
-          ...state,
-          wishLists: updateWishList,
-        };
+        state.wishLists = updateWishList;
       } else {
         const updateWishList = wishLists.filter(
           (item) => item.id !== payload.id
         );
-        return {
-          ...state,
-          wishLists: updateWishList,
-        };
+        state.wishLists = updateWishList;
       }
+      localStorage.setItem("wishList", JSON.stringify(state.wishLists));
     },
     setWishListFromStorage: (state, action) => {
       state.wishLists = action.payload;
+      localStorage.setItem("wishList", JSON.stringify(action.payload));
+    },
+    clearWishList: (state) => {
+      (state.wishLists = []), localStorage.removeItem("wishList");
     },
   },
 });
-export const { addToWishList, reduceWishList, setWishListFromStorage } =
-  wishListSlice.actions;
-export default wishListSlice.reducer;
+export const {
+  addToWishList,
+  reduceWishList,
+  setWishListFromStorage,
+  clearWishList,
+} = wishList.actions;
+export default wishList.reducer;

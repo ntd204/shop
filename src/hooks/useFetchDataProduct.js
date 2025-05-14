@@ -1,21 +1,31 @@
 import { useEffect, useState } from "react";
 import apiProducts from "../services/apiProducts";
 
-const useFetchDataProduct = (category) => {
+const useFetchDataProduct = (category, filterParams) => {
   const [products, setProducts] = useState([]);
+  const [totalProduct, setTotalProduct] = useState(0);
   useEffect(() => {
-    console.log(category);
-    const fetchGetAllProducts = async () => {
+    const fetchDataProductsByCategory = async () => {
       const res = await apiProducts.getDataProductsByCategory(category);
       if (res.status === 200) {
         setProducts(res.data.products);
       }
     };
+    const fetchDataAllProducts = async () => {
+      const res = await apiProducts.getAllProducts(filterParams);
+      if (res.status === 200) {
+        setProducts(res.data.products);
+        setTotalProduct(res.data.total);
+      }
+    };
     if (category) {
-      fetchGetAllProducts();
+      fetchDataProductsByCategory();
+    } else {
+      fetchDataAllProducts();
     }
-  }, [category]);
-  return { products };
+  }, [category, filterParams]);
+  console.log(filterParams, "filterParams");
+  return { products, totalProduct };
 };
 
 export default useFetchDataProduct;

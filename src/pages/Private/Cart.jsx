@@ -9,7 +9,6 @@ const Cart = () => {
   useEffect(() => {
     setItems(cartItems);
   }, [cartItems]);
-  console.log("cartItems", cartItems);
   return (
     <div>
       {items.length > 0 ? (

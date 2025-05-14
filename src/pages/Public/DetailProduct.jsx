@@ -2,10 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import apiProducts from "../../services/apiProducts";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {
-  addToWishList,
-  reduceWishList,
-} from "../../redux/features/wishListSlice";
 import { toast } from "react-toastify";
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 import { addToCart } from "../../redux/features/cartSlice";
@@ -13,18 +9,19 @@ import SectionRelatesProduct from "./Sections/SectionRelatesProduct";
 import _ from "lodash";
 import useFetchDataProduct from "../../hooks/useFetchDataProduct";
 import useAuth from "../../hooks/useAuth";
+import useWishList from "../../hooks/useWishList";
 
 const DetailProduct = () => {
   const { id } = useParams();
   const divRef = useRef(null);
   const [product, setProducts] = useState([]);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [quantityProduct, setQuantityProduct] = useState(1);
   const [category, setCategory] = useState("");
   const [activeImgIndex, setActiveImgIndex] = useState(0);
   const { products } = useFetchDataProduct(category);
   const dispatch = useDispatch();
   const { requireAuth } = useAuth();
+  const { toggleWishList, isFavorite } = useWishList();
 
   const handleAddToCart = () => {
     requireAuth(() => {
@@ -41,31 +38,7 @@ const DetailProduct = () => {
     });
   };
   const handleAddToWishList = (e) => {
-    e.stopPropagation();
-    setIsFavorite((prev) => !prev);
-    if (isFavorite) {
-      dispatch(
-        reduceWishList({
-          ...product,
-          wishList: 1,
-        })
-      );
-      toast.success("Xóa khỏi danh sách yêu thích thành công!", {
-        progress: undefined,
-        autoClose: 1000,
-      });
-    } else {
-      toast.success("Thêm vào danh sách yêu thích thành công!", {
-        progress: undefined,
-        autoClose: 1000,
-      });
-      dispatch(
-        addToWishList({
-          ...product,
-          wishList: 1,
-        })
-      );
-    }
+    toggleWishList(product, e);
   };
   useEffect(() => {
     if (id) {
@@ -183,7 +156,7 @@ const DetailProduct = () => {
               className="group-hover:opacity-100 transition-opacity duration-300 "
               onClick={(e) => handleAddToWishList(e)}
             >
-              {isFavorite ? (
+              {isFavorite(product) ? (
                 <IoIosHeart className="text-red-500 size-7" />
               ) : (
                 <IoIosHeartEmpty className=" size-7" />

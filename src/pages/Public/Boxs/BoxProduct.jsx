@@ -5,11 +5,6 @@ import { Skeleton } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/features/cartSlice";
 import { toast } from "react-toastify";
-import {
-  // addToWishList,
-  // reduceWishList,
-  setWishListFromStorage,
-} from "../../../redux/features/wishListSlice";
 import useAuth from "../../../hooks/useAuth";
 import useWishList from "../../../hooks/useWishList";
 
@@ -27,7 +22,7 @@ const BoxProduct = ({ item, idx }) => {
           quantity: 1,
         })
       ),
-        toast.success("Thêm vào giỏ hàng thành công!", {
+        toast.success(`Thêm ${item.title}  vào giỏ hàng thành công!`, {
           progress: undefined,
           autoClose: 1000,
         });
@@ -39,16 +34,10 @@ const BoxProduct = ({ item, idx }) => {
     }, 1000);
   });
 
-  useEffect(() => {
-    const saveWishList = localStorage.getItem("wishList");
-    if (saveWishList) {
-      dispatch(setWishListFromStorage(JSON.parse(saveWishList)));
-    }
-  }, []);
   return isLoading ? (
     <li
       key={idx}
-      className="relative border bg-white border-none rounded-xl font-semibold text-center hover:scale-105 overflow-hidden group"
+      className="relative border bg-white border-none rounded-xl font-semibold text-center hover:scale-105 overflow-hidden group h-[1120xp]"
     >
       <span className="absolute py-1 text-xs px-2 top-3 left-3 bg-red-600 text-white rounded-xl ">
         -{item.discountPercentage}%
@@ -66,8 +55,8 @@ const BoxProduct = ({ item, idx }) => {
       <Link to={`/detail-product/${item.id}`}>
         <img src={item.thumbnail} className="w-full" />
       </Link>
-      <div className="flex flex-col justify-center items-center">
-        <h3 className="text-15 mt-2">Title: {item.title}</h3>
+      <div className="flex flex-col justify-center items-center h-16">
+        <h3 className="text-15 mt-2 group-hover:mb-2">{item.title}</h3>
         <span className="text-red-500 group-hover:hidden">
           Price: {item.price}$
         </span>

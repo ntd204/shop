@@ -4,25 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { doLogin } from "../../redux/features/authSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import useHandleChange from "../../hooks/useHandleChange";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const [formDataLogin, setFormDataLogin] = useState({
-    email: "",
-    password: "",
-  });
   const [stateEyes, setStateEyes] = useState(false);
   const isLogin = useSelector((state) => state.auth.isLogin);
   const navigate = useNavigate();
+  const { formData, handleChange } = useHandleChange({
+    email: "",
+    password: "",
+  });
   const handleLogin = () => {
-    dispatch(doLogin(formDataLogin));
-  };
-  const handleChangeLogin = (e) => {
-    const { name, value } = e.target;
-    setFormDataLogin({
-      ...formDataLogin,
-      [name]: value,
-    });
+    dispatch(doLogin(formData));
   };
   useEffect(() => {
     if (isLogin) {
@@ -45,7 +39,7 @@ const Login = () => {
                 type="text"
                 name="email"
                 placeholder="Email*"
-                onChange={handleChangeLogin}
+                onChange={handleChange}
               />
             </div>
             <div className="relative w-full">
@@ -56,7 +50,7 @@ const Login = () => {
                     name="password"
                     placeholder="Password*"
                     className=" h-10 border-none w-full pl-2"
-                    onChange={handleChangeLogin}
+                    onChange={handleChange}
                   />
                   <IoIosEye
                     className="absolute top-2 right-3 size-6 cursor-pointer"
@@ -70,7 +64,7 @@ const Login = () => {
                     name="password"
                     placeholder="Password*"
                     className="h-10 border-none w-full pl-2"
-                    onChange={handleChangeLogin}
+                    onChange={handleChange}
                   />
                   <IoIosEyeOff
                     className="absolute top-2 right-3 size-6 cursor-pointer"

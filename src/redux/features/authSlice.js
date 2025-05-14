@@ -2,11 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 export const initialState = {
-  userName: localStorage.getItem("userName"),
-  isLogin:
-    localStorage.getItem("userName") !== "" &&
-    localStorage.getItem("userName") !== null &&
-    localStorage.getItem("userName") !== undefined,
+  userName: localStorage.getItem("userName") || "",
+  isLogin: !!localStorage.getItem("userName"),
 };
 export const authSlice = createSlice({
   name: "auth",
@@ -16,7 +13,9 @@ export const authSlice = createSlice({
       const { email, password } = action.payload;
       if (email === "dao@gmail.com" && password === "123456") {
         const userName = email.split("@")[0];
+        const savedWishList = localStorage.getItem("wishList");
         localStorage.setItem("userName", userName);
+        localStorage.setItem("wishList", savedWishList || JSON.stringify([]));
         return {
           ...state,
           userName,
@@ -24,19 +23,20 @@ export const authSlice = createSlice({
         };
       } else {
         toast.error("Fail login");
+        return {
+          ...state,
+          userName: "",
+          isLogin: false,
+        };
       }
-      return {
-        ...state,
-        userName: "",
-        isLogin: false,
-      };
     },
     doLogout: (state) => {
-      localStorage.removeItem("userName", "wishList");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("wishList");
+
       return {
         ...state,
         userName: "",
-        wishList: 0,
         isLogin: false,
       };
     },
