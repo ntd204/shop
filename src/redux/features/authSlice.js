@@ -33,6 +33,7 @@ export const authSlice = createSlice({
     doLogout: (state) => {
       localStorage.removeItem("userName");
       localStorage.removeItem("wishList");
+      localStorage.removeItem("cartItems");
 
       return {
         ...state,

@@ -4,6 +4,7 @@ import Footer from "../Footer/Footer";
 import { Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setWishListFromStorage } from "../../redux/features/wishListSlice";
+import { setCartItemsFromStorage } from "../../redux/features/cartSlice";
 
 const Layout = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,10 @@ const Layout = () => {
     const saveWishList = localStorage.getItem("wishList");
     if (saveWishList) {
       dispatch(setWishListFromStorage(JSON.parse(saveWishList)));
+    }
+    const saveCart = localStorage.getItem("cartItems");
+    if (saveWishList) {
+      dispatch(setCartItemsFromStorage(JSON.parse(saveCart)));
     }
   }, []);
   return (

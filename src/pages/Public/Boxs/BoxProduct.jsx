@@ -21,11 +21,11 @@ const BoxProduct = ({ item, idx }) => {
           ...item,
           quantity: 1,
         })
-      ),
-        toast.success(`Thêm ${item.title}  vào giỏ hàng thành công!`, {
-          progress: undefined,
-          autoClose: 1000,
-        });
+      );
+      toast.success(`Thêm ${item.title}  vào giỏ hàng thành công!`, {
+        progress: undefined,
+        autoClose: 1000,
+      });
     });
   };
   useEffect(() => {

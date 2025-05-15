@@ -14,6 +14,7 @@ import { doLogout } from "../../redux/features/authSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { clearWishList } from "../../redux/features/wishListSlice";
+import { clearCartItems } from "../../redux/features/cartSlice";
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -31,6 +32,7 @@ export default function AccountMenu() {
   const handleLogout = () => {
     dispatch(doLogout());
     dispatch(clearWishList());
+    dispatch(clearCartItems());
   };
   React.useEffect(() => {
     if (!isLogin) {

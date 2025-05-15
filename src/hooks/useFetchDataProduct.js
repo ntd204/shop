@@ -24,7 +24,6 @@ const useFetchDataProduct = (category, filterParams) => {
       fetchDataAllProducts();
     }
   }, [category, filterParams]);
-  console.log(filterParams, "filterParams");
   return { products, totalProduct };
 };
 

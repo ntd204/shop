@@ -18,6 +18,13 @@ const useAuth = () => {
       navigate("/login");
     }
   };
-  return { requireAuth, requireWishList };
+  const requireCartItem = (action) => {
+    if (isLogin) {
+      action();
+    } else {
+      navigate("/login");
+    }
+  };
+  return { requireAuth, requireWishList, requireCartItem };
 };
 export default useAuth;
