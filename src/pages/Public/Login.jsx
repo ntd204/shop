@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { IoIosEye, IoIosEyeOff } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
-import { doLogin } from "../../redux/features/authSlice";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import useHandleChange from "../../hooks/useHandleChange";
+import React, { useEffect, useState } from 'react'
+import { IoIosEye, IoIosEyeOff } from 'react-icons/io'
+import { useDispatch, useSelector } from 'react-redux'
+import { doLogin } from '../../redux/features/authSlice'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import useHandleChange from '../../hooks/useHandleChange'
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const [stateEyes, setStateEyes] = useState(false);
-  const isLogin = useSelector((state) => state.auth.isLogin);
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const [stateEyes, setStateEyes] = useState(false)
+  const isLogin = useSelector((state) => state.auth.isLogin)
+  const navigate = useNavigate()
   const { formData, handleChange } = useHandleChange({
-    email: "",
-    password: "",
-  });
+    email: '',
+    password: ''
+  })
   const handleLogin = () => {
-    dispatch(doLogin(formData));
-  };
+    dispatch(doLogin(formData))
+  }
   useEffect(() => {
     if (isLogin) {
-      toast.success("Success login", {
-        autoClose: 500,
-      });
-      navigate("/");
+      toast.success('Success login', {
+        autoClose: 500
+      })
+      navigate('/')
     }
-  });
+  })
   return (
     <>
       <div className="flex flex-col justify-center items-center m-15">
@@ -83,10 +83,15 @@ const Login = () => {
               Login
             </button>
           </div>
+          <div className="font-semibold mt-10">
+            <p className="text-red-500">*Tài khoản trải nghiệm</p>
+            <p>Email: dao@gmail.com</p>
+            <p>Password: 123456</p>
+          </div>
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
